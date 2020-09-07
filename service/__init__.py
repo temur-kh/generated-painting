@@ -1,0 +1,1 @@
+from service.generator import generate_painting
