@@ -6,6 +6,7 @@ import cv2
 
 
 def generate_painting(config):
+    random.seed(config.seed)
     epochs = config.epochs
     n = config.population_size
     m = n // 3
