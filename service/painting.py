@@ -1,7 +1,6 @@
 import random
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class Painting:
@@ -9,6 +8,7 @@ class Painting:
         self.img_size = img_size
         self.strokes = strokes
         self.score = None
+        self.age = 0
 
     @staticmethod
     def generate(config, original_image):

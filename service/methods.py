@@ -2,7 +2,6 @@ import random
 import copy
 
 import numpy as np
-import matplotlib.pyplot as plt
 import cv2
 
 from service.painting import Painting
@@ -23,21 +22,23 @@ def select(population, k, mode):
         raise ValueError("Invalid selection mode is provided.")
 
 
-# def crossover(config, selection, original_image):
-#     n_strokes = config.n_strokes
-#     indices = list(range(len(selection)))
-#     random.shuffle(indices)
-#     children = []
-#     for i in range(1, len(indices), 2):
-#         parent_1 = selection[indices[i - 1]]
-#         parent_2 = selection[indices[i]]
-#         strokes_1 = random.sample(parent_1.strokes, n_strokes // 2 + n_strokes % 2)
-#         strokes_2 = random.sample(parent_2.strokes, n_strokes // 2)
-#         child_strokes = [copy.deepcopy(stroke) for stroke in strokes_1 + strokes_2]
-#         child = Painting(parent_1.img_size, child_strokes)
-#         child.score = fitness_function(child, original_image)
-#         children.append(child)
-#     return children
+def ageing_algorithm(config, population, n):
+    def age_up(painting):
+        painting.age += 1
+        return painting
+
+    n_olds = sum([1 for painting in population if painting.age >= config.max_age])
+    if n - len(population) > n_olds:
+        return [age_up(painting) for painting in population if painting.age < config.max_age]
+    else:
+        result = [painting for painting in population if painting.age < config.max_age]
+        olds = [painting for painting in population if painting.age >= config.max_age]
+        random.shuffle(olds)
+        i = 0
+        while len(result) < n:
+            result.append(olds[i])
+            i += 1
+        return [age_up(painting) for painting in result]
 
 
 def crossover(config, selection, original_image):
@@ -91,7 +92,7 @@ def generate_population(config, size, original_image):
 def fitness_function(painting, original_image):
     img = painting_to_image(painting)
     max_score = PIXEL_MAX_SCORE * painting.img_size[0] * painting.img_size[1]
-    loss = np.sum(np.abs(img-original_image))
+    loss = np.sum(np.abs(img - original_image))
     return max_score - loss
 
 
