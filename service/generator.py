@@ -3,6 +3,7 @@ from service.methods import *
 import copy
 
 import cv2
+import matplotlib.pyplot as plt
 
 
 def generate_painting(config):
@@ -35,6 +36,7 @@ def generate_painting(config):
         if not best_painting or best_painting.score < population[0].score:
             best_painting = copy.deepcopy(population[0])
 
+        population = ageing_algorithm(config, population, n)
         population = select(population, n, MAX_SELECTION)
         if config.logging_every != -1 and epoch % config.logging_every == 0:
             print(f'Epoch #{epoch}: Evolution Best Score = {best_painting.score}, Population Best Score = {best_score}')
