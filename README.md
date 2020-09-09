@@ -35,13 +35,14 @@ For more information about arguments to pass. Refer to the `help` message:
 usage: app.py [-h] [--input INPUT] [--output OUTPUT] [--epochs EPOCHS]
               [--population-size POPULATION_SIZE] [--n-mutations N_MUTATIONS]
               [--stroke-mut-ratio STROKE_MUT_RATIO]
-              [--logging_every LOGGING_EVERY] [--n-strokes N_STROKES]
+              [--logging-every LOGGING_EVERY] [--n-strokes N_STROKES]
               [--max-age MAX_AGE] [--color-max-step COLOR_MAX_STEP]
               [--length-max-step LENGTH_MAX_STEP] [--length-min LENGTH_MIN]
               [--length-max LENGTH_MAX] [--width-max-step WIDTH_MAX_STEP]
               [--width-min WIDTH_MIN] [--width-max WIDTH_MAX]
               [--position-max-step POSITION_MAX_STEP]
               [--degrees-max-step DEGREES_MAX_STEP] [--seed SEED]
+              [--show-images]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -57,7 +58,7 @@ optional arguments:
                         Number of paintings to mutate every epoch.
   --stroke-mut-ratio STROKE_MUT_RATIO
                         Mutation ratio for strokes.
-  --logging_every LOGGING_EVERY, -l LOGGING_EVERY
+  --logging-every LOGGING_EVERY, -l LOGGING_EVERY
                         Number of epochs to pass for printing a log. If it is
                         -1, do not print logs.
   --n-strokes N_STROKES, -s N_STROKES
@@ -85,7 +86,8 @@ optional arguments:
                         The maximal step size to mutate orientation degrees of
                         a stroke.
   --seed SEED           Seed for random.
-
+  --show-images         Whether to show images of the best image of the
+                        population every `logging-every` epochs.
 ```
 
 ## Examples

@@ -28,10 +28,11 @@ def generate_painting(config):
 
         painting = select(population, 1, MAX_SELECTION)[0]
         best_score = painting.score
-        img = painting_to_image(painting)
-        plt.imshow(img)
-        plt.title(best_score)
-        plt.show()
+        if config.show_images:
+            img = painting_to_image(painting)
+            plt.imshow(img)
+            plt.title(best_score)
+            plt.show()
 
         if not best_painting or best_painting.score < population[0].score:
             best_painting = copy.deepcopy(population[0])
