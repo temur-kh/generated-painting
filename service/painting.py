@@ -8,6 +8,7 @@ class Painting:
         self.img_size = img_size
         self.strokes = strokes
         self.score = None
+        self.image = None
         self.age = 0
 
     @staticmethod

@@ -24,12 +24,11 @@ def generate_painting(config):
         population.extend(children)
 
         selection = select(population, o, RAND_SELECTION)
-        mutate(selection, original_image)
+        mutate(config, selection, original_image)
 
         painting = select(population, 1, MAX_SELECTION)[0]
         best_score = painting.score
-        img = painting_to_image(painting)
-        plt.imshow(img)
+        plt.imshow(painting.image)
         plt.title(best_score)
         plt.show()
 

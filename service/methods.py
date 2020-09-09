@@ -56,26 +56,29 @@ def crossover(config, selection, original_image):
         child_strokes = [copy.deepcopy(parent_2.strokes[ix] if val else parent_1.strokes[ix]) for ix, val in
                          enumerate(zero_ones)]
         child = Painting(parent_1.img_size, child_strokes)
-        child.score = fitness_function(child, original_image)
+        child.score, child.image = fitness_function(child, original_image)
         children.append(child)
     return children
 
 
-def mutate(selection, original_image):
+def mutate(config, selection, original_image):
     for painting in selection:
         for stroke in painting.strokes:
-            choice = random.randint(1, 8)
-            if choice in [1, 2, 3]:
-                stroke.mutate_color()
-            elif choice == 4:
-                stroke.mutate_length()
-            elif choice == 5:
-                stroke.mutate_width()
-            elif choice in [6, 7]:
-                stroke.mutate_position()
-            else:
-                stroke.mutate_degrees()
-        score = fitness_function(painting, original_image)
+            prob = random.random()
+            if prob <= config.stroke_mut_ratio:
+                choice = random.randint(1, 8)
+                if choice in [1, 2, 3]:
+                    stroke.mutate_color()
+                elif choice == 4:
+                    stroke.mutate_length()
+                elif choice == 5:
+                    stroke.mutate_width()
+                elif choice in [6, 7]:
+                    stroke.mutate_position()
+                else:
+                    stroke.mutate_degrees()
+        score, img = fitness_function(painting, original_image)
+        painting.image = img
         painting.score = score
 
 
@@ -83,8 +86,9 @@ def generate_population(config, size, original_image):
     population = []
     for _ in range(size):
         painting = Painting.generate(config, original_image)
-        score = fitness_function(painting, original_image)
+        score, img = fitness_function(painting, original_image)
         painting.score = score
+        painting.image = img
         population.append(painting)
     return population
 
@@ -93,12 +97,13 @@ def fitness_function(painting, original_image):
     img = painting_to_image(painting)
     max_score = PIXEL_MAX_SCORE * painting.img_size[0] * painting.img_size[1]
     loss = np.sum(np.abs(img - original_image))
-    return max_score - loss
+    return max_score - loss, img
 
 
 def painting_to_image(painting, default_val=255):
     size = painting.img_size
     img = default_val * np.ones((size[0], size[1], 3), np.uint8)
+    random.shuffle(painting.strokes)
     for stroke in painting.strokes:
         cv2.line(img, stroke.position, stroke.end_point, stroke.color, stroke.width)
     return img
