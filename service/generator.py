@@ -28,7 +28,8 @@ def generate_painting(config):
 
         painting = select(population, 1, MAX_SELECTION)[0]
         best_score = painting.score
-        plt.imshow(painting.image)
+        img = painting_to_image(painting)
+        plt.imshow(img)
         plt.title(best_score)
         plt.show()
 

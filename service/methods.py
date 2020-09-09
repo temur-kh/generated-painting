@@ -56,7 +56,7 @@ def crossover(config, selection, original_image):
         child_strokes = [copy.deepcopy(parent_2.strokes[ix] if val else parent_1.strokes[ix]) for ix, val in
                          enumerate(zero_ones)]
         child = Painting(parent_1.img_size, child_strokes)
-        child.score, child.image = fitness_function(child, original_image)
+        child.score = fitness_function(child, original_image)
         children.append(child)
     return children
 
@@ -77,8 +77,7 @@ def mutate(config, selection, original_image):
                     stroke.mutate_position()
                 else:
                     stroke.mutate_degrees()
-        score, img = fitness_function(painting, original_image)
-        painting.image = img
+        score = fitness_function(painting, original_image)
         painting.score = score
 
 
@@ -86,9 +85,8 @@ def generate_population(config, size, original_image):
     population = []
     for _ in range(size):
         painting = Painting.generate(config, original_image)
-        score, img = fitness_function(painting, original_image)
+        score = fitness_function(painting, original_image)
         painting.score = score
-        painting.image = img
         population.append(painting)
     return population
 
@@ -97,7 +95,7 @@ def fitness_function(painting, original_image):
     img = painting_to_image(painting)
     max_score = PIXEL_MAX_SCORE * painting.img_size[0] * painting.img_size[1]
     loss = np.sum(np.abs(img - original_image))
-    return max_score - loss, img
+    return max_score - loss
 
 
 def painting_to_image(painting, default_val=255):
