@@ -1,5 +1,9 @@
 # Application of Genetic Algorithms to Generating Paintings
 
+Genetic algorithms are frequently applied to optimization tasks because they can discover optimal arrangements without fundamental knowledge of decisions done. These algorithms can find optimal solutions of object features that can be evaluated and weighted based on how good or bad they fit some metric. This project studies the application of genetic algorithms for generating paintings based on images. Each painting is drawn with a set of strokes, and an evolution process is used to explore and exploit the field of possible paintings.
+
+More information is available in the project [report](./report/PCG_Portfolio_Project_1_Report.pdf).
+
 ## Algorithm
 
 This implementation is based on a paper of A. Nasen and M.C. Lewis (2018). _Applying Genetic Algorithms to Generating Paintings_. Accessed at [link](https://csce.ucmss.com/cr/books/2018/LFS/CSREA2018/IPC3627.pdf).
